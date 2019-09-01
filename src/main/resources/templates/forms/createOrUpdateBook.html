@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Create or update book</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+    <div th:if="${authorId}">
+        <form th:action="@{/book/{action}/{authorId}(action=${action},authorId=${authorId})}" th:object="${book}" method="post">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" th:field="*{name}" id="title"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" th:field="*{description}"
+                          id="description">
+                </textarea>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </form>
+    </div>
+    <div th:unless="${authorId}">
+        <form th:action="@{/book/{action}/{bookId}(action=${action},bookId=${bookId})}" th:object="${book}" method="post">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" th:field="*{name}" id="title"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" th:field="*{description}"
+                          id="description">
+            </textarea>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </form>
+    </div>
+</body>
+</html>

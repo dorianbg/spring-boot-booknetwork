@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Book information</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+
+    <h6> Author:
+        <a th:href="@{/author/{id}(id=${author.id})}" >
+        <span th:text="${author.name}"></span>
+    </a>
+    </h6>
+    <h6 th:text="${'Book name: ' + book.name}"></h6>
+    <h6 th:text="${'Book description: ' + book.description}"></h6>
+    <br>
+    <h6 th:text="${'Number of favorites: ' + number_favourites}"></h6>
+    <div class="input-group">
+        <div th:if="${userFavourited}">
+            <a class="btn btn-warning btn-sm" th:href="@{/book/{bookId}/unfavourite(bookId=${book.id})}" role="button">Unfavourite this book</a>
+        </div>
+        <div th:unless="${userFavourited}">
+            <a class="btn btn-info btn-sm" th:href="@{/book/{bookId}/favourite(bookId=${book.id})}" role="button">Favourite this book</a>
+        </div>
+    </div>
+    <h6>
+        <a th:href="@{/book/{bookId}/favouritedby(bookId=${book.id})}" >
+            <span th:text="${'List of users who favourited this book'}"></span>
+        </a>
+    </h6>
+
+    <br>
+    <h6 th:text="${'Average rating: ' + average_rating}"></h6>
+    <h6 th:text="${'Number of ratings: ' + number_ratings}"></h6>
+    <form class="form-inline d-flex flex-nowrap" th:action="@{/book/rating/}" th:object="${rating}" method="post">
+        <div class="form-group">
+            <input th:type="hidden" th:field="*{user}" th:value="${rating.user}" />
+            <input th:type="hidden" th:field="*{book}" th:value="${rating.book}" />
+            <label class="mr-2 ml-2" for="rating">Your rating: </label>
+            <input type="number" id="rating" size="20" min="1" max="5" th:field="*{value}" th:value="${rating.value}" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">Rate</button>
+    </form>
+
+    <br>
+
+    <h5> List of comments </h5>
+    <table class="table table-hover table-condensed">
+        <tr>
+            <th>Username</th>
+            <th>Comment</th>
+            <th><a sec:authorize="hasRole('ROLE_ADMIN')">Update option</a></th>
+            <th><a sec:authorize="hasRole('ROLE_ADMIN')">Delete option</a></th>
+        </tr>
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.user.name}"></td>
+            <td th:text="${comment.text}"></td>
+            <td><a class="btn btn-warning" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/{bookId}/{userName}/comment/update(bookId=${comment.book.id},userName=${comment.user.name})}">Update comment</a></td>
+            <td><a class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/comment/delete/{bookId}/{userName}(bookId=${comment.book.id},userName=${comment.user.name})}">Delete comment</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${userAddedComment}">
+        <a class="btn btn-primary" th:href="@{/book/{bookId}/{userName}/comment/update(bookId=${book.id},userName=${user.name})}" role="button">Update your comment</a>
+        <a class="btn btn-primary" th:href="@{/book/comment/delete/{bookId}/{userName}(bookId=${book.id},userName=${user.name})}" role="button">Delete your comment</a>
+    </div>
+    <div th:unless="${userAddedComment}">
+        <a class="btn btn-primary" th:href="@{/book/{bookId}/comment/create(bookId=${book.id})}" role="button">Add a new comment</a>
+    </div>
+
+
+</div>
+
+</body>
+</html>

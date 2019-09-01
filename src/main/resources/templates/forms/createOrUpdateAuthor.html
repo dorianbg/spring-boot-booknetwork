@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Create or update author</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+    <div th:if="${authorId}">
+        <form th:action="@{/author/{action}/{authorId}(action=${action},authorId=${authorId})}" th:object="${author}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" th:field="*{name}" id="name"/>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </form>
+    </div>
+    <div th:unless="${authorId}">
+        <form th:action="@{/author/{action}(action=${action})}" th:object="${author}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" th:field="*{name}" id="name"/>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

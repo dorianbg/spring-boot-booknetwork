@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Create or update book</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+    <form th:action="@{/book/comment/{action}(action=${action})}" th:object="${comment}"
+          method="post">
+        <div class="form-group">
+            <label for="description">Comment</label>
+            <textarea class="form-control" th:field="*{text}"
+                      id="description">
+                </textarea>
+            <input th:type="hidden" th:field="*{user}" th:value="${comment.user}" />
+            <input th:type="hidden" th:field="*{book}" th:value="${comment.book}" />
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary"/>
+    </form>
+</body>
+</html>

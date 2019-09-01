@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Users</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+
+    <h5> List of Users </h5>
+
+    <table class="table table-hover table-condensed">
+        <tr>
+            <th>User name</th>
+            <th>User email</th>
+            <div th:if="${crudOption}">
+                <th><a sec:authorize="hasRole('ROLE_ADMIN')">Delete option</a></th>
+            </div>
+        </tr>
+        <tbody>
+        <tr th:each="user : ${usersList}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <div th:if="${crudOption}">
+                <div th:if="${user.name != 'admin'}">
+                    <td><a class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/user/delete/{userName}(userName=${user.name})}">Delete user</a></td>
+                </div>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

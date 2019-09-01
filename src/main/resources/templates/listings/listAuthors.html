@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Authors</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container basic_container">
+
+    <h5> List of Authors </h5>
+
+    <table class="table table-hover table-condensed">
+        <tr>
+            <th>Author name</th>
+            <th>Books</th>
+            <th><a sec:authorize="hasRole('ROLE_ADMIN')">Update option</a></th>
+            <th><a sec:authorize="hasRole('ROLE_ADMIN')">Delete option</a></th>
+        </tr>
+        <tbody>
+        <tr th:each="author : ${authorList}">
+            <td th:text="${author.name}"></td>
+            <td><a th:href="@{/author/{authorid}(authorid=${author.id})}"> Books </a></td>
+            <td><a class="btn btn-warning" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/author/update/{authorId}(authorId=${author.id})}">Update author</a></td>
+            <td><a class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/author/delete/{authorId}(authorId=${author.id})}">Delete author</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div><a class="btn btn-primary" href="/author/create" role="button">Create</a></div>
+</div>
+
+</body>
+</html>
