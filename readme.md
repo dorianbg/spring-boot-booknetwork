@@ -54,3 +54,18 @@ Administrators can additionally:
 - [x] create, delete and update books  
 - [x] create, delete and update comments       
 
+### Image demonstrations
+
+![Alt text](images/0.jpg?raw=true "Title")
+
+![Alt text](images/1.jpg?raw=true "Title")
+
+![Alt text](images/2.jpg?raw=true "Title")
+
+![Alt text](images/3.jpg?raw=true "Title")
+
+![Alt text](images/4.jpg?raw=true "Title")
+
+![Alt text](images/5.jpg?raw=true "Title")
+
+![Alt text](images/6.jpg?raw=true "Title")
